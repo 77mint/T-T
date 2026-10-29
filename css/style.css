@@ -1,1 +1,277 @@
+/* ================= 基础 ================= */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+html,body{
+    width:100%;height:100%;
+    background:#d8d8dd;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+}
+
+/* ================= 手机外壳 ================= */
+#stage{
+    width:393px;height:852px;
+    transform-origin:center center;
+    position:relative;flex-shrink:0;
+}
+
+.phone{
+    position:absolute;inset:0;
+    background:linear-gradient(165deg,#8e8e93 0%,#5c5c61 45%,#3a3a3f 100%);
+    border-radius:52px;
+    overflow:hidden;
+    box-shadow:0 0 0 10px #1c1c1e, 0 20px 60px rgba(0,0,0,.25);
+}
+body.fullscreen .phone{border-radius:0;box-shadow:none}
+
+/* ================= 状态栏 ================= */
+.status-bar{
+    position:absolute;top:0;left:0;right:0;height:50px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 34px 0;
+    font-size:15px;font-weight:600;color:#fff;
+    z-index:50;pointer-events:none;
+}
+.status-right{display:flex;align-items:center;gap:5px}
+.status-right svg{height:11px;fill:#fff}
+
+.screen{position:absolute;inset:0;overflow:hidden}
+
+/* ================= 主屏幕 ================= */
+.home{
+    position:absolute;inset:0;
+    padding:62px 24px 0;
+    display:flex;flex-direction:column;
+    transition:transform .4s cubic-bezier(.32,.72,0,1),opacity .3s;
+}
+body.in-app .home{transform:scale(.92);opacity:0;pointer-events:none}
+
+.app-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:22px 16px;align-content:start;
+}
+
+.app{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    background:none;border:none;cursor:pointer;padding:0;
+    transition:transform .15s;
+}
+.app:active{transform:scale(.9)}
+
+/* ================= Liquid Glass 材质 ================= */
+.glass{
+    background:transparent;
+    backdrop-filter:blur(1px) brightness(1.06);
+    -webkit-backdrop-filter:blur(1px) brightness(1.06);
+    border:none;
+    box-shadow:
+        0 -0.5px 0 0 rgba(255,255,255,.35),
+        0 0.5px 0 0 rgba(0,0,0,.08),
+        inset 0 1px 0 0 rgba(255,255,255,.45),
+        inset 0 -0.5px 0 0 rgba(0,0,0,.06),
+        0 2px 8px rgba(0,0,0,.06);
+}
+
+.app-icon{
+    width:60px;height:60px;border-radius:15px;
+    display:flex;align-items:center;justify-content:center;
+}
+.app-icon svg{
+    width:30px;height:30px;
+    fill:none;stroke:#fff;stroke-width:1.5;
+}
+
+.app-name{
+    font-size:11px;font-weight:450;color:#fff;
+    letter-spacing:.1px;
+    text-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+
+.page-dots{
+    margin-top:auto;margin-bottom:12px;
+    display:flex;justify-content:center;gap:7px;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)}
+.dot.active{background:rgba(255,255,255,.85)}
+
+/* ================= Dock ================= */
+.dock{
+    position:absolute;left:84px;right:84px;bottom:26px;
+    height:66px;border-radius:24px;
+    display:flex;align-items:center;justify-content:space-evenly;
+    z-index:40;
+    transition:transform .4s cubic-bezier(.32,.72,0,1),opacity .3s;
+}
+body.in-app .dock{transform:translateY(130%);opacity:0;pointer-events:none}
+.dock .app-name{display:none}
+.dock .app-icon{width:50px;height:50px;border-radius:13px}
+.dock .app-icon svg{width:26px;height:26px}
+
+/* ================= App 容器 ================= */
+.app-view{
+    position:absolute;inset:0;background:#fff;z-index:70;
+    transform:scale(1.08);opacity:0;pointer-events:none;
+    transition:transform .4s cubic-bezier(.32,.72,0,1),opacity .25s;
+    overflow:hidden;
+}
+body.in-app .app-view{transform:scale(1);opacity:1;pointer-events:auto}
+
+.home-indicator{
+    position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+    width:140px;height:5px;border-radius:3px;
+    background:rgba(255,255,255,.5);z-index:100;cursor:pointer;
+    transition:background .3s;
+}
+body.in-app .home-indicator{background:rgba(0,0,0,.22)}
+
+/* ================= 图书 App ================= */
+.books-app{position:absolute;inset:0;overflow:hidden;color:#1c1c1e}
+
+.books-scroll{
+    position:absolute;inset:0;overflow-y:auto;
+    padding:58px 0 110px;-webkit-overflow-scrolling:touch;
+}
+.books-scroll::-webkit-scrollbar{display:none}
+
+.page-title{padding:6px 20px 20px;font-size:24px;font-weight:700;letter-spacing:-.3px}
+
+/* 书架 */
+.shelf-section{padding:0 16px;margin-bottom:36px}
+.shelf-space{height:150px;position:relative}
+.shelf-space::before,.shelf-space::after{
+    content:'';position:absolute;bottom:0;width:1.5px;height:70%;
+    background:linear-gradient(to bottom,transparent,rgba(0,0,0,.06));
+}
+.shelf-space::before{left:0}
+.shelf-space::after{right:0}
+
+.shelf-plank{
+    height:7px;border-radius:1px;position:relative;
+    background:linear-gradient(to bottom,#d4d4d8,#b4b4ba);
+    box-shadow:0 2px 4px rgba(0,0,0,.12),0 4px 14px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.35);
+}
+.shelf-plank::after{
+    content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;
+    background:#a3a3a8;border-radius:0 0 1px 1px;
+}
+.shelf-under{height:20px;margin:0 4px;border-radius:0 0 6px 6px;background:linear-gradient(to bottom,rgba(0,0,0,.06),transparent)}
+
+/* 阅读目标 */
+.goal-section{padding:10px 16px 16px;display:flex;flex-direction:column;align-items:center}
+.goal-title{font-size:19px;font-weight:700;margin-bottom:6px;transition:opacity .3s}
+.goal-subtitle{font-size:12px;color:#8e8e93;text-align:center;line-height:1.6;margin-bottom:30px;transition:opacity .3s}
+
+.arc-wrapper{width:240px;height:135px;position:relative;margin-bottom:24px;cursor:pointer}
+.arc-wrapper svg{width:100%;height:100%;overflow:visible}
+.arc-bg{fill:none;stroke:#f0f0f5;stroke-width:7;stroke-linecap:round}
+.arc-fill{fill:none;stroke:#1c1c1e;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+.arc-dot{fill:#1c1c1e;opacity:0;transition:opacity .3s}
+
+.time-display{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);text-align:center}
+.time-value{font-size:48px;font-weight:700;letter-spacing:-1.5px;line-height:1;font-variant-numeric:tabular-nums}
+.time-goal{font-size:12px;color:#8e8e93;margin-top:5px;display:flex;align-items:center;justify-content:center;gap:2px}
+.time-goal .arrow{width:10px;height:10px;stroke:#8e8e93;fill:none;stroke-width:2.5;transition:opacity .3s}
+
+.read-btn{
+    width:260px;height:52px;background:#1c1c1e;border-radius:26px;border:none;cursor:pointer;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    transition:transform .15s,opacity .3s;
+}
+.read-btn:active{transform:scale(.97)}
+.read-label{font-size:14px;font-weight:600;color:#fff}
+.read-book{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+.read-book:empty{display:none}
+
+/* 进度详情 */
+.progress-details{display:none;text-align:center;margin-top:-10px;margin-bottom:20px}
+.progress-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.progress-remaining{font-size:15px;color:#8e8e93;font-weight:600;margin-bottom:6px}
+.progress-desc{font-size:13px;color:#8e8e93}
+
+/* 蒙层 */
+.books-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.books-app.adjusting .books-overlay{opacity:1;pointer-events:auto}
+.books-app.adjusting .read-btn,
+.books-app.adjusting .books-tabbar,
+.books-app.adjusting .goal-title,
+.books-app.adjusting .goal-subtitle{opacity:0;pointer-events:none}
+.books-app.adjusting .progress-details{display:block;position:relative;z-index:201}
+.books-app.adjusting .arc-wrapper{z-index:201}
+.books-app.adjusting .arc-dot{opacity:1}
+.books-app.adjusting .time-goal .arrow{opacity:0}
+
+.close-btn{
+    position:absolute;top:60px;right:20px;width:30px;height:30px;border-radius:50%;
+    background:rgba(120,120,128,.25);border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    z-index:205;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.books-app.adjusting .close-btn{opacity:1;pointer-events:auto}
+.close-btn svg{width:12px;height:12px;stroke:rgba(255,255,255,.9);fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* 调整目标卡片 */
+.adjust-card{
+    position:absolute;bottom:0;left:0;right:0;
+    background:#f2f2f7;border-radius:16px 16px 0 0;
+    z-index:202;transform:translateY(100%);
+    transition:transform .3s cubic-bezier(.175,.885,.32,1);
+    overflow:hidden;padding-bottom:20px;
+}
+.books-app.adjusting .adjust-card{transform:translateY(0)}
+
+.adjust-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+.adjust-head-title{font-size:16px;font-weight:700}
+.adjust-done{font-size:15px;font-weight:600;color:#1c1c1e;background:none;border:none;cursor:pointer}
+
+/* iOS 滚轮 */
+.picker{
+    background:#fff;margin:0 16px 10px;border-radius:12px;
+    position:relative;height:190px;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.picker-highlight{
+    position:absolute;left:12px;right:12px;height:38px;top:50%;
+    transform:translateY(-50%);background:rgba(120,120,128,.08);
+    border-radius:8px;pointer-events:none;z-index:0;
+}
+.picker::before,.picker::after{
+    content:'';position:absolute;left:0;right:0;height:76px;z-index:2;pointer-events:none;
+}
+.picker::before{top:0;background:linear-gradient(to bottom,#fff,rgba(255,255,255,0))}
+.picker::after{bottom:0;background:linear-gradient(to top,#fff,rgba(255,255,255,0))}
+
+.picker-col{flex:1;height:100%;position:relative;z-index:1;overflow:hidden}
+.picker-scroll{position:absolute;left:0;right:0;top:0}
+.picker-item{
+    height:38px;display:flex;align-items:center;justify-content:center;
+    font-size:21px;font-weight:400;color:#c7c7cc;
+    transition:color .15s,font-weight .15s;
+    user-select:none;cursor:pointer;font-variant-numeric:tabular-nums;
+}
+.picker-item.selected{color:#1c1c1e;font-weight:600;font-size:22px}
+.picker-item.near{color:#8e8e93}
+
+.picker-label{
+    position:absolute;top:50%;transform:translateY(-50%);
+    font-size:15px;font-weight:500;color:#1c1c1e;z-index:3;pointer-events:none;
+}
+.label-hour{left:42%}
+.label-min{right:11%}
+
+/* 图书底栏 */
+.books-tabbar{
+    position:absolute;bottom:26px;left:28px;right:28px;
+    height:52px;border-radius:26px;
+    display:flex;justify-content:space-around;align-items:center;
+    z-index:100;transition:opacity .3s;
+}
+.tab-item{
+    display:flex;flex-direction:column;align-items:center;gap:1px;
+    cursor:pointer;border:none;background:none;padding:5px 10px;
+}
+.tab-item svg{width:19px;height:19px;stroke-width:1.7;fill:none;stroke:#8e8e93}
+.tab-item span{font-size:9px;color:#8e8e93;font-weight:500}
+.tab-item.active svg{stroke:#1c1c1e}
+.tab-item.active span{color:#1c1c1e}
 
